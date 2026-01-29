@@ -2,25 +2,139 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>เข้าสู่ระบบ | เที่ยวนี่เหอะ</title>
-<link rel="stylesheet" href="style.css">
-<script type="module" src="firebase.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เที่ยนี่เหอะ</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(180deg,#5cc6ff,#1e7fd9);
+      color: #fff;
+    }
+    .screen { display: none; padding: 20px; }
+    .screen.active { display: block; }
+
+    .logo {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .logo img {
+      width: 120px;
+      border-radius: 50%;
+      background:#fff;
+      padding:10px;
+    }
+
+    h2 { text-align:center; }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      margin: 6px 0;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      background: #fff;
+      color:#1e7fd9;
+      font-size: 16px;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .menu div {
+      background: rgba(255,255,255,0.2);
+      padding: 24px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .seats {
+      display:grid;
+      grid-template-columns: repeat(2,1fr);
+      gap:10px;
+      margin-top:20px;
+    }
+    .seat {
+      background:#fff;
+      color:#333;
+      padding:14px;
+      border-radius:14px;
+      text-align:center;
+    }
+    .seat.booked { background:#ffb3b3; }
+    .seat.pending { background:#ffe08a; }
+
+    .back { margin-top:20px; }
+  </style>
 </head>
-<body class="blue-bg center">
 
-<img src="เที่ย นี่เหอะ" class="logo-lg">
+<body>
 
-<h2>เข้าสู่ระบบด้วยเบอร์โทร</h2>
+<!-- LOGIN -->
+<div class="screen active" id="login">
+  <div class="logo">
+    <img src="เที่ย นี่เหอะ.png">
+  </div>
+  <h2>เข้าสู่ระบบด้วยเบอร์โทร</h2>
+  <input id="phone" placeholder="0812345678">
+  <div id="recaptcha"></div>
+  <button onclick="sendOTP()">รับรหัส OTP</button>
+  <input id="otp" placeholder="กรอกรหัส OTP">
+  <button onclick="verifyOTP()">ยืนยัน</button>
+</div>
 
-<input id="phone" placeholder="เบอร์โทร เช่น 0812345678">
-<div id="recaptcha"></div>
-<button onclick="sendOTP()">รับรหัส OTP</button>
+<!-- HOME -->
+<div class="screen" id="home">
+  <div class="logo">
+    <img src="เที่ย นี่เหอะ.png">
+  </div>
 
-<input id="otp" placeholder="กรอกรหัส OTP">
-<button onclick="verifyOTP()">ยืนยัน</button>
+  <div class="menu">
+    <div onclick="go('booking')">🚌 จองที่นั่ง</div>
+    <div>🏕 ทริปของฉัน</div>
+    <div>🔔 แจ้งเตือน</div>
+    <div>📜 ประวัติ</div>
+  </div>
+</div>
 
+<!-- BOOKING -->
+<div class="screen" id="booking">
+  <h2>🚌 เลือกที่นั่ง (10 ที่)</h2>
+
+  <div class="seats" id="seats"></div>
+
+  <div id="form" style="display:none">
+    <input id="fullname" placeholder="ชื่อ-สกุล">
+    <input id="nickname" placeholder="ชื่อเล่น">
+    <input id="tel" placeholder="เบอร์โทร">
+    <input id="line" placeholder="ไลน์">
+    <button onclick="confirmSeat()">ยืนยันจอง</button>
+  </div>
+
+  <button class="back" onclick="go('home')">⬅ กลับ</button>
+</div>
+
+<script src="firebase.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
