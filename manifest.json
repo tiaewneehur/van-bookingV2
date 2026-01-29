@@ -1,19 +1,14 @@
 
 {
   "name": "เที่ยวนี่เหอะ",
-  "short_name": "เที่ย นี่เหอะ.png",
+  "short_name": "TNH",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#2196f3",
-  "theme_color": "#2196f3",
+  "background_color": "#1976d2",
+  "theme_color": "#42a5f5",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
+      "src": "เที่ย นี่เหอะ.png",
       "sizes": "512x512",
       "type": "image/png"
     }
