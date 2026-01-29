@@ -1,0 +1,55 @@
+
+body { margin:0; font-family:sans-serif; color:#fff }
+.blue-bg { background:linear-gradient(#4fc3f7,#1976d2); min-height:100vh }
+
+.center { text-align:center; padding:30px }
+
+.logo-lg { width:120px; margin:20px auto }
+
+.header { text-align:center }
+
+.grid {
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+ padding:20px;
+}
+
+.card {
+ background:rgba(255,255,255,.2);
+ border-radius:16px;
+ padding:30px;
+ text-align:center;
+ font-size:18px;
+ text-decoration:none;
+ color:#fff;
+}
+
+.bottom {
+ position:fixed;
+ bottom:0;
+ width:100%;
+ display:flex;
+ justify-content:space-around;
+ background:#1565c0;
+ padding:10px 0;
+}
+
+.bottom a { color:#fff; font-size:20px }
+
+.bus {
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ padding:20px;
+}
+
+.seat {
+ background:#4caf50;
+ padding:20px;
+ border-radius:10px;
+ text-align:center;
+ cursor:pointer;
+}
+
+.seat.booked { background:#f44336 }
