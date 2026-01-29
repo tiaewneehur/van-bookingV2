@@ -3,155 +3,115 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>เที่ยวนี่เหอะ</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2196f3">
+  <meta name="theme-color" content="#42a5f5">
 
   <style>
+    *{ box-sizing:border-box; font-family:system-ui,-apple-system; }
     body{
       margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+      min-height:100vh;
       background:linear-gradient(180deg,#4fc3f7,#1976d2);
       color:#fff;
     }
-    .app{
-      max-width:430px;
-      margin:auto;
-      padding:16px;
-      min-height:100vh;
-    }
+
     .header{
       display:flex;
       align-items:center;
-      gap:12px;
-      margin-bottom:20px;
+      gap:14px;
+      padding:20px;
     }
+
     .logo{
-      width:56px;
-      height:56px;
+      width:64px;
+      height:64px;
       border-radius:50%;
       background:#fff;
-      color:#1976d2;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:bold;
+      padding:6px;
     }
-    .title h1{margin:0;font-size:20px}
-    .title p{margin:0;font-size:13px;opacity:.8}
+
+    .title{
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .subtitle{
+      font-size:14px;
+      opacity:.9;
+    }
 
     .menu{
+      padding:20px;
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:20px;
+      gap:16px;
     }
+
     .card{
-      background:rgba(255,255,255,.2);
-      border-radius:16px;
-      padding:22px;
+      background:rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:26px 10px;
       text-align:center;
-      font-size:16px;
-      cursor:pointer;
-    }
-    .card:active{transform:scale(.97)}
-
-    .screen{display:none}
-    .screen.active{display:block}
-
-    .btn-back{
-      margin-top:20px;
-      padding:12px;
-      border-radius:12px;
-      background:rgba(255,255,255,.25);
-      border:none;
-      color:#fff;
-      width:100%;
-      font-size:15px;
-    }
-
-    .seats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:20px;
-    }
-    .seat{
-      padding:18px;
-      border-radius:14px;
-      text-align:center;
-      background:#4caf50;
-      cursor:pointer;
       font-size:18px;
+      font-weight:600;
+      backdrop-filter:blur(6px);
+      cursor:pointer;
+      transition:.2s;
     }
-    .seat.booked{
-      background:#f44336;
-      cursor:not-allowed;
+
+    .card:active{
+      transform:scale(.96);
+      background:rgba(255,255,255,.28);
     }
-    .seat.selected{
-      background:#ff9800;
+
+    .emoji{
+      font-size:30px;
+      display:block;
+      margin-bottom:6px;
     }
   </style>
 </head>
-
 <body>
-<div class="app">
 
-  <!-- HEADER -->
   <div class="header">
-    <div class="logo">เที่ย นี่เหอะ.png</div>
-    <div class="title">
-      <h1>เที่ยวนี่เหอะ</h1>
-      <p>เดินป่า แคมป์ปิ้ง</p>
+    <img src="เที่ย นี่เหอะ.png" class="logo" alt="เที่ยวนี่เหอะ">
+    <div>
+      <div class="title">เที่ยวนี่เหอะ</div>
+      <div class="subtitle">เดินป่า แคมป์ปิ้ง</div>
     </div>
   </div>
 
-  <!-- HOME -->
-  <section id="home" class="screen active">
-    <div class="menu">
-      <div class="card" onclick="go('seat')">🚌 จองที่นั่ง</div>
-      <div class="card" onclick="go('trip')">🏕 ทริปของฉัน</div>
-      <div class="card" onclick="go('notify')">🔔 แจ้งเตือน</div>
-      <div class="card" onclick="go('history')">📜 ประวัติ</div>
+  <div class="menu">
+    <div class="card" onclick="go('seat.html')">
+      <span class="emoji">🚌</span>
+      จองที่นั่ง
     </div>
-  </section>
 
-  <!-- SEAT -->
-  <section id="seat" class="screen">
-    <h3>🚌 จองที่นั่ง</h3>
-    <div class="seats" id="seats"></div>
-    <button class="btn-back" onclick="go('home')">← กลับ</button>
-  </section>
+    <div class="card" onclick="go('mytrip.html')">
+      <span class="emoji">🏕</span>
+      ทริปของฉัน
+    </div>
 
-  <!-- TRIP -->
-  <section id="trip" class="screen">
-    <h3>🏕 ทริปของฉัน</h3>
-    <p>ยังไม่มีทริป</p>
-    <button class="btn-back" onclick="go('home')">← กลับ</button>
-  </section>
+    <div class="card" onclick="go('notify.html')">
+      <span class="emoji">🔔</span>
+      แจ้งเตือน
+    </div>
 
-  <!-- NOTIFY -->
-  <section id="notify" class="screen">
-    <h3>🔔 แจ้งเตือน</h3>
-    <ul>
-      <li>อีก 3 วันออกเดินทาง</li>
-      <li>อย่าลืมเต็นท์</li>
-    </ul>
-    <button class="btn-back" onclick="go('home')">← กลับ</button>
-  </section>
+    <div class="card" onclick="go('history.html')">
+      <span class="emoji">📜</span>
+      ประวัติ
+    </div>
+  </div>
 
-  <!-- HISTORY -->
-  <section id="history" class="screen">
-    <h3>📜 ประวัติการเดินทาง</h3>
-    <p>ยังไม่มีข้อมูล</p>
-    <button class="btn-back" onclick="go('home')">← กลับ</button>
-  </section>
+  <script>
+    function go(page){
+      location.href = page;
+    }
+  </script>
 
-</div>
-
-<script src="app.js"></script>
 </body>
 </html>
