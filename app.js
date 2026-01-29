@@ -1,26 +1,75 @@
 
+let confirmationResult;
 let selectedSeat = null;
 
-window.sendOTP = () => {
-  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha', {}, auth);
-  signInWithPhoneNumber(auth, "+66"+phone.value.slice(1), window.recaptchaVerifier)
-    .then(r => window.confirmationResult = r);
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+window.onload = ()=>{
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    'recaptcha',
+    { size:'invisible' }
+  );
 };
 
-window.verifyOTP = () => {
-  confirmationResult.confirm(otp.value).then(() => location.href="home.html");
-};
+function sendOTP(){
+  let phone = document.getElementById('phone').value;
+  auth.signInWithPhoneNumber("+66"+phone.substring(1), recaptchaVerifier)
+    .then(res=>{
+      confirmationResult = res;
+      alert("ส่ง OTP แล้ว");
+    });
+}
 
-window.selectSeat = n => {
-  selectedSeat = n;
-  alert("เลือกเบาะ "+n);
-};
+function verifyOTP(){
+  confirmationResult.confirm(document.getElementById('otp').value)
+    .then(()=>{
+      go('home');
+      loadSeats();
+    });
+}
 
-window.confirmSeat = () => {
-  if(!selectedSeat) return alert("เลือกเบาะก่อน");
-  alert("จองเบาะ "+selectedSeat+" เรียบร้อย");
-};
+// ---------- SEATS ----------
+function loadSeats(){
+  const box = document.getElementById('seats');
+  box.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const d=document.createElement('div');
+    d.className='seat';
+    d.innerText='ที่นั่ง '+i;
+    d.onclick=()=>selectSeat(i);
+    box.appendChild(d);
+  }
 
-window.logout = () => {
-  auth.signOut().then(()=>location.href="index.html");
-};
+  db.collection("seats").onSnapshot(snap=>{
+    snap.forEach(doc=>{
+      const seat = doc.id;
+      const el=[...box.children][seat-1];
+      el.classList.add('booked');
+      el.innerText=`ที่นั่ง ${seat}\n(${doc.data().nickname})`;
+    });
+  });
+}
+
+function selectSeat(no){
+  selectedSeat=no;
+  document.getElementById('form').style.display='block';
+}
+
+function confirmSeat(){
+  const data={
+    fullname:fullname.value,
+    nickname:nickname.value,
+    tel:tel.value,
+    line:line.value,
+    uid:auth.currentUser.uid
+  };
+
+  db.collection("seats").doc(String(selectedSeat)).set(data)
+    .then(()=>{
+      alert("จองสำเร็จ");
+      document.getElementById('form').style.display='none';
+    });
+}
