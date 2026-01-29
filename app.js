@@ -1,47 +1,26 @@
 
 let selectedSeat = null;
-let bookedSeats = [];
 
-function go(screen){
-  document.querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
-  document.getElementById(screen).classList.add("active");
+window.sendOTP = () => {
+  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha', {}, auth);
+  signInWithPhoneNumber(auth, "+66"+phone.value.slice(1), window.recaptchaVerifier)
+    .then(r => window.confirmationResult = r);
+};
 
-  if(screen === "seat") loadSeats();
-}
+window.verifyOTP = () => {
+  confirmationResult.confirm(otp.value).then(() => location.href="home.html");
+};
 
-function loadSeats(){
-  const box = document.getElementById("seats");
-  box.innerHTML = "";
+window.selectSeat = n => {
+  selectedSeat = n;
+  alert("เลือกเบาะ "+n);
+};
 
-  for(let i=1;i<=9;i++){
-    const b = document.createElement("div");
-    b.className = "seat";
-    b.innerText = i;
+window.confirmSeat = () => {
+  if(!selectedSeat) return alert("เลือกเบาะก่อน");
+  alert("จองเบาะ "+selectedSeat+" เรียบร้อย");
+};
 
-    if(bookedSeats.includes(i)){
-      b.classList.add("booked");
-    }
-
-    b.onclick = () => {
-      if(b.classList.contains("booked")) return;
-
-      if(selectedSeat){
-        selectedSeat.classList.remove("selected");
-      }
-      b.classList.add("selected");
-      selectedSeat = b;
-
-      const name = prompt("ใส่ชื่อเล่นผู้จอง");
-      if(name){
-        b.innerText = `${i}\n${name}`;
-        b.classList.remove("selected");
-        b.classList.add("booked");
-        bookedSeats.push(i);
-        selectedSeat = null;
-      }
-    };
-
-    box.appendChild(b);
-  }
-}
+window.logout = () => {
+  auth.signOut().then(()=>location.href="index.html");
+};
