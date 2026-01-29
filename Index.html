@@ -1,1 +1,157 @@
 
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เที่ยวนี่เหอะ</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <style>
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+      background:linear-gradient(180deg,#4fc3f7,#1976d2);
+      color:#fff;
+    }
+    .app{
+      max-width:430px;
+      margin:auto;
+      padding:16px;
+      min-height:100vh;
+    }
+    .header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:20px;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      background:#fff;
+      color:#1976d2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+    }
+    .title h1{margin:0;font-size:20px}
+    .title p{margin:0;font-size:13px;opacity:.8}
+
+    .menu{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:20px;
+    }
+    .card{
+      background:rgba(255,255,255,.2);
+      border-radius:16px;
+      padding:22px;
+      text-align:center;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .card:active{transform:scale(.97)}
+
+    .screen{display:none}
+    .screen.active{display:block}
+
+    .btn-back{
+      margin-top:20px;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(255,255,255,.25);
+      border:none;
+      color:#fff;
+      width:100%;
+      font-size:15px;
+    }
+
+    .seats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:20px;
+    }
+    .seat{
+      padding:18px;
+      border-radius:14px;
+      text-align:center;
+      background:#4caf50;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .seat.booked{
+      background:#f44336;
+      cursor:not-allowed;
+    }
+    .seat.selected{
+      background:#ff9800;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">เที่ย นี่เหอะ.png</div>
+    <div class="title">
+      <h1>เที่ยวนี่เหอะ</h1>
+      <p>เดินป่า แคมป์ปิ้ง</p>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="screen active">
+    <div class="menu">
+      <div class="card" onclick="go('seat')">🚌 จองที่นั่ง</div>
+      <div class="card" onclick="go('trip')">🏕 ทริปของฉัน</div>
+      <div class="card" onclick="go('notify')">🔔 แจ้งเตือน</div>
+      <div class="card" onclick="go('history')">📜 ประวัติ</div>
+    </div>
+  </section>
+
+  <!-- SEAT -->
+  <section id="seat" class="screen">
+    <h3>🚌 จองที่นั่ง</h3>
+    <div class="seats" id="seats"></div>
+    <button class="btn-back" onclick="go('home')">← กลับ</button>
+  </section>
+
+  <!-- TRIP -->
+  <section id="trip" class="screen">
+    <h3>🏕 ทริปของฉัน</h3>
+    <p>ยังไม่มีทริป</p>
+    <button class="btn-back" onclick="go('home')">← กลับ</button>
+  </section>
+
+  <!-- NOTIFY -->
+  <section id="notify" class="screen">
+    <h3>🔔 แจ้งเตือน</h3>
+    <ul>
+      <li>อีก 3 วันออกเดินทาง</li>
+      <li>อย่าลืมเต็นท์</li>
+    </ul>
+    <button class="btn-back" onclick="go('home')">← กลับ</button>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history" class="screen">
+    <h3>📜 ประวัติการเดินทาง</h3>
+    <p>ยังไม่มีข้อมูล</p>
+    <button class="btn-back" onclick="go('home')">← กลับ</button>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
